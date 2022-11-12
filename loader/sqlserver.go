@@ -30,10 +30,15 @@ func init() {
 func SqlserverGoType(d xo.Type, schema, itype, utype string) (string, string, error) {
 	var goType, zero string
 	switch d.Type {
-	case "tinyint", "bit":
+	case "bit":
 		goType, zero = "bool", "false"
 		if d.Nullable {
 			goType, zero = "sql.NullBool", "sql.NullBool{}"
+		}
+	case "tinyint":
+		goType, zero = "int8", "0"
+		if d.Nullable {
+			goType, zero = "sql.NullInt64", "sql.NullInt64{}"
 		}
 	case "char", "money", "nchar", "ntext", "nvarchar", "smallmoney", "text", "varchar":
 		goType, zero = "string", `""`
