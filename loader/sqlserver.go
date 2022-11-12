@@ -77,6 +77,11 @@ func SqlserverGoType(d xo.Type, schema, itype, utype string) (string, string, er
 		if d.Nullable {
 			goType, zero = "sql.NullTime", "sql.NullTime{}"
 		}
+	case "uniqueidentifier":
+		goType, zero = "string", `""`
+		if d.Nullable {
+			goType, zero = "sql.NullString", "sql.NullString{}"
+		}
 	default:
 		goType, zero = schemaType(d.Type, d.Nullable, schema)
 	}
